@@ -1,0 +1,70 @@
+package com.packt.cardatabase.domain;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.GenericGenerator;
+
+import java.util.List;
+
+@Entity
+public class Owner{
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="owner")
+	private List<Car> cars;
+	
+	public List<Car> getCars(){
+		return cars;
+	}
+	
+	
+	public void setCars(List<Car> cars) {
+		this.cars = cars;
+	}
+
+
+	@Id
+	@GeneratedValue(strategy= GenerationType.AUTO,generator="native")
+	@GenericGenerator(name = "native",strategy = "native")
+	private long ownerid;
+	private String firstname, lastname;
+	
+	public Owner() {}
+	
+	public Owner(String firstname, String lastname)
+	{
+		super();
+		this.firstname = firstname;
+		this.lastname = lastname;
+	}
+	
+	public long getOwnerId()
+	{
+		return ownerid;
+	}
+
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public void setOwnerId(long ownerid) {
+		this.ownerid = ownerid;
+	}
+	
+	
+}
