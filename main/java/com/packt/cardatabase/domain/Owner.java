@@ -7,28 +7,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.GenericGenerator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Owner{
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="owner")
-	private List<Car> cars;
 	
-	public List<Car> getCars(){
-		return cars;
-	}
-	
-	
-	public void setCars(List<Car> cars) {
-		this.cars = cars;
-	}
-
-
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO,generator="native")
-	@GenericGenerator(name = "native",strategy = "native")
+	@GeneratedValue(strategy= GenerationType.AUTO)
 	private long ownerid;
 	private String firstname, lastname;
 	
@@ -39,6 +28,18 @@ public class Owner{
 		super();
 		this.firstname = firstname;
 		this.lastname = lastname;
+	}
+	
+	@JsonIgnore
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="owner")
+	private List<Car> cars;
+	public List<Car> getCars(){
+		return cars;
+	}
+	
+	
+	public void setCars(List<Car> cars) {
+		this.cars = cars;
 	}
 	
 	public long getOwnerId()
